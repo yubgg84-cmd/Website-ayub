@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayub Game Zone</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#0f172a,#2563eb,#7c3aed);
+    color:white;
+    min-height:100vh;
+}
+
+.screen{
+    min-height:100vh;
+    padding:30px 15px;
+    text-align:center;
+}
+
+.welcome{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.box{
+    width:100%;
+    max-width:850px;
+    margin:auto;
+    padding:35px 20px;
+    background:rgba(255,255,255,.12);
+    border-radius:25px;
+    box-shadow:0 15px 40px #0005;
+}
+
+h1{font-size:38px;margin-bottom:15px}
+h2{margin-bottom:15px}
+p{color:#dbeafe;margin:12px}
+
+.blue{color:#38bdf8}
+
+button{
+    border:0;
+    padding:12px 20px;
+    margin:6px;
+    border-radius:20px;
+    background:#38bdf8;
+    color:#082f49;
+    font-weight:bold;
+    font-size:15px;
+}
+
+button:active{
+    transform:scale(.95);
+}
+
+#menu{
+    display:none;
+}
+
+.game-list{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-top:25px;
+}
+
+.card{
+    padding:20px 8px;
+    background:#ffffff18;
+    border-radius:18px;
+    border:1px solid #ffffff22;
+}
+
+.card:active{
+    background:#ffffff35;
+}
+
+.emoji{
+    font-size:35px;
+}
+
+.game{
+    display:none;
+    margin-top:25px;
+    padding:25px 10px;
+    background:#020617aa;
+    border-radius:20px;
+}
+
+input{
+    padding:12px;
+    border:0;
+    border-radius:10px;
+    width:130px;
+    text-align:center;
+    font-size:18px;
+}
+
+.board{
+    display:grid;
+    grid-template-columns:repeat(3,65px);
+    gap:5px;
+    justify-content:center;
+    margin:20px;
+}
+
+.cell{
+    width:65px;
+    height:65px;
+    background:#1e293b;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    border-radius:8px;
+}
+
+.target{
+    width:65px;
+    height:65px;
+    background:#ef4444;
+    border-radius:50%;
+    margin:25px auto;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,55px);
+    justify-content:center;
+    gap:7px;
+    margin:20px;
+}
+
+.mem{
+    width:55px;
+    height:55px;
+    background:#334155;
+    border-radius:8px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:25px;
+}
+
+.back{
+    background:#64748b;
+}
+
+#speedButton{
+    min-width:180px;
+}
+
+@media(max-width:400px){
+    h1{font-size:30px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- HALAMAN DEPAN -->
+<div id="home" class="screen welcome">
+
+    <div class="box">
+
+        <h1>Selamat Datang 👋</h1>
+
+        <h1>
+            di Website <span class="blue">Ayub</span>
+        </h1>
+
+        <p>Website sederhana buatan Ayub 🚀</p>
+
+        <button onclick="masukMenu()">
+            Klik Aku 🎮
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- MENU -->
+<div id="menu" class="screen">
+
+    <div class="box">
+
+        <h1>🎮 AYUB GAME ZONE</h1>
+
+        <p>10 Game Offline</p>
+
+        <div class="game-list">
+
+            <div class="card" onclick="bukaGame('g1')">
+                <div class="emoji">🔢</div>
+                <b>Tebak Angka</b>
+            </div>
+
+            <div class="card" onclick="bukaGame('g2')">
+                <div class="emoji">✊</div>
+                <b>Batu Gunting Kertas</b>
+            </div>
+
+            <div class="card" onclick="bukaGame('g3')">
+                <div class="emoji">❌</div>
+                <b>Tic Tac Toe</b>
+            </div>
+
+            <div class="card" onclick="bukaGame('g4')">
+                <div class="emoji">🎯</div>
+                <b>Klik Target</b>
+            </div>
+
+            <div class="card" onclick="bukaGame('g5')">
+                <div class="emoji">🧮</div>
+                <b>Matematika</b>
+            </div>
+
+            <div class="card" onclick="bukaGame('g6')">
+                <div class="emoji">🪙</div>
+                <b>Tebak Koin</b>
+            </div>
+
+            <div class="card" onclick="bukaGame('g7')">
+                <div class="emoji">🎲</div>
+                <b>Lempar Dadu</b>
+            </div>
+
+            <div class="card" onclick="bukaGame('g8')">
+                <div class="emoji">🧠</div>
+                <b>Memory</b>
+            </div>
+
+            <div class="card" onclick="bukaGame('g9')">
+                <div class="emoji">⚡</div>
+                <b>Tes Reaksi</b>
+            </div>
+
+            <div class="card" onclick="bukaGame('g10')">
+                <div class="emoji">🎰</div>
+                <b>Mesin Angka</b>
+            </div>
+
+        </div>
+
+
+        <!-- GAME 1 -->
+        <div id="g1" class="game">
+
+            <h2>🔢 Tebak Angka</h2>
+
+            <p>Tebak angka 1 sampai 10</p>
+
+            <input id="tebakInput" type="number">
+
+            <br>
+
+            <button onclick="tebakAngka()">TEBAK</button>
+
+            <p id="tebakHasil"></p>
+
+            <button class="back" onclick="menuGame()">← Kembali</button>
+
+        </div>
+
+
+        <!-- GAME 2 -->
+        <div id="g2" class="game">
+
+            <h2>✊ Batu Gunting Kertas</h2>
+
+            <button onclick="mainRPS('Batu')">✊</button>
+            <button onclick="mainRPS('Gunting')">✌️</button>
+            <button onclick="mainRPS('Kertas')">🖐️</button>
+
+            <p id="rpsHasil"></p>
+
+            <button class="back" onclick="menuGame()">← Kembali</button>
+
+        </div>
+
+
+        <!-- GAME 3 -->
+        <div id="g3" class="game">
+
+            <h2>❌⭕ Tic Tac Toe</h2>
+
+            <p id="tttText">Giliran X</p>
+
+            <div class="board">
+
+                <div class="cell" onclick="ttt(0)"></div>
+                <div class="cell" onclick="ttt(1)"></div>
+                <div class="cell" onclick="ttt(2)"></div>
+
+                <div class="cell" onclick="ttt(3)"></div>
+                <div class="cell" onclick="ttt(4)"></div>
+                <div class="cell" onclick="ttt(5)"></div>
+
+                <div class="cell" onclick="ttt(6)"></div>
+                <div class="cell" onclick="ttt(7)"></div>
+                <div class="cell" onclick="ttt(8)"></div>
+
+            </div>
+
+            <button onclick="resetTTT()">RESET</button>
+
+            <button class="back" onclick="menuGame()">← Kembali</button>
+
+        </div>
+
+
+        <!-- GAME 4 -->
+        <div id="g4" class="game">
+
+            <h2>🎯 Klik Target</h2>
+
+            <p>Score: <span id="targetScore">0</span></p>
+
+            <div class="target" onclick="klikTarget()"></div>
+
+            <button onclick="resetTarget()">RESET</button>
+
+            <button class="back" onclick="menuGame()">← Kembali</button>
+
+        </div>
+
+
+        <!-- GAME 5 -->
+        <div id="g5" class="game">
+
+            <h2>🧮 Tebak Matematika</h2>
+
+            <h2 id="soalMath"></h2>
+
+            <input id="mathInput" type="number">
+
+            <button onclick="jawabMath()">JAWAB</button>
+
+            <p id="mathHasil"></p>
+
+            <button class="back" onclick="menuGame()">← Kembali</button>
+
+        </div>
+
+
+        <!-- GAME 6 -->
+        <div id="g6" class="game">
+
+            <h2>🪙 Tebak Koin</h2>
+
+            <p>Pilih hasil koin!</p>
+
+            <button onclick="tebakKoin('Kepala')">🙂 Kepala</button>
+
+            <button onclick="tebakKoin('Ekor')">🪙 Ekor</button>
+
+            <p id="koinHasil"></p>
+
+            <button class="back" onclick="menuGame()">← Kembali</button>
+
+        </div>
+
+
+        <!-- GAME 7 -->
+        <div id="g7" class="game">
+
+            <h2>🎲 Lempar Dadu</h2>
+
+            <div id="dadu" style="font-size:80px">🎲</div>
+
+            <button onclick="lemparDadu()">LEMPAR</button>
+
+            <button class="back" onclick="menuGame()">← Kembali</button>
+
+        </div>
+
+
+        <!-- GAME 8 -->
+        <div id="g8" class="game">
+
+            <h2>🧠 Memory Card</h2>
+
+            <p>Cari pasangan!</p>
+
+            <div class="cards" id="memoryBoard"></div>
+
+            <button onclick="buatMemory()">RESET</button>
+
+            <button class="back" onclick="menuGame()">← Kembali</button>
+
+        </div>
+
+
+        <!-- GAME 9 -->
+        <div id="g9" class="game">
+
+            <h2>⚡ Tes Reaksi</h2>
+
+            <p id="reactionText">
+                Tekan mulai lalu tunggu!
+            </p>
+
+            <button id="reactionButton" onclick="reaksi()">
+                MULAI
+            </button>
+
+        </div>
+
+
+        <!-- GAME 10 -->
+        <div id="g10" class="game">
+
+            <h2>🎰 Mesin Angka</h2>
+
+            <div id="slot" style="font-size:55px">
+                0️⃣ 0️⃣ 0️⃣
+            </div>
+
+            <button onclick="putarSlot()">PUTAR!</button>
+
+            <p id="slotHasil"></p>
+
+            <button class="back" onclick="menuGame()">← Kembali</button>
+
+        </div>
+
+
+        <br>
+
+        <button onclick="kembaliHome()" class="back">
+            🏠 Home
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* MENU */
+
+function masukMenu(){
+
+    document.getElementById("home").style.display="none";
+
+    document.getElementById("menu").style.display="block";
+
+}
+
+function kembaliHome(){
+
+    document.getElementById("menu").style.display="none";
+
+    document.getElementById("home").style.display="flex";
+
+}
+
+function bukaGame(id){
+
+    var games=document.querySelectorAll(".game");
+
+    for(var i=0;i<games.length;i++){
+
+        games[i].style.display="none";
+
+    }
+
+    document.getElementById(id).style.display="block";
+
+}
+
+function menuGame(){
+
+    var games=document.querySelectorAll(".game");
+
+    for(var i=0;i<games.length;i++){
+
+        games[i].style.display="none";
+
+    }
+
+}
+
+
+/* GAME 1 */
+
+var angkaRahasia=Math.floor(Math.random()*10)+1;
+
+function tebakAngka(){
+
+    var angka=Number(
+        document.getElementById("tebakInput").value
+    );
+
+    if(angka===angkaRahasia){
+
+        document.getElementById("tebakHasil").innerHTML=
+        "🎉 BENAR!";
+
+        angkaRahasia=Math.floor(Math.random()*10)+1;
+
+    }
+
+    else if(angka>angkaRahasia){
+
+        document.getElementById("tebakHasil").innerHTML=
+        "⬇️ Terlalu besar!";
+
+    }
+
+    else{
+
+        document.getElementById("tebakHasil").innerHTML=
+        "⬆️ Terlalu kecil!";
+
+    }
+
+}
+
+
+/* GAME 2 */
+
+function mainRPS(pemain){
+
+    var pilihan=["Batu","Gunting","Kertas"];
+
+    var komputer=
+    pilihan[Math.floor(Math.random()*3)];
+
+    var hasil="";
+
+    if(pemain===komputer){
+
+        hasil="🤝 SERI!";
+
+    }
+
+    else if(
+        (pemain==="Batu" && komputer==="Gunting") ||
+        (pemain==="Gunting" && komputer==="Kertas") ||
+        (pemain==="Kertas" && komputer==="Batu")
+    ){
+
+        hasil="🎉 KAMU MENANG!";
+
+    }
+
+    else{
+
+        hasil="😂 KAMU KALAH!";
+
+    }
+
+    document.getElementById("rpsHasil").innerHTML=
+    "Kamu: "+pemain+
+    "<br>Komputer: "+komputer+
+    "<br><br>"+hasil;
+
+}
+
+
+/* GAME 3 */
+
+var papan=["","","","","","","","",""];
+
+var giliran="X";
+
+var selesai=false;
+
+function ttt(pos){
+
+    if(papan[pos]!=="" || selesai){
+
+        return;
+
+    }
+
+    papan[pos]=giliran;
+
+    document.querySelectorAll(".cell")[pos].innerHTML=giliran;
+
+    if(cekMenang()){
+
+        document.getElementById("tttText").innerHTML=
+        "🎉 "+giliran+" MENANG!";
+
+        selesai=true;
+
+        return;
+
+    }
+
+    giliran=(giliran==="X")?"O":"X";
+
+    document.getElementById("tttText").innerHTML=
+    "Giliran "+giliran;
+
+}
+
+function cekMenang(){
+
+    var pola=[
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+        [0,4,8],
+        [2,4,6]
+    ];
+
+    for(var i=0;i<pola.length;i++){
+
+        var a=pola[i];
+
+        if(
+            papan[a[0]]!=="" &&
+            papan[a[0]]===papan[a[1]] &&
+            papan[a[1]]===papan[a[2]]
+        ){
+
+            return true;
+
+        }
+
+    }
+
+    return false;
+
+}
+
+function resetTTT(){
+
+    papan=["","","","","","","","",""];
+
+    giliran="X";
+
+    selesai=false;
+
+    var cells=document.querySelectorAll(".cell");
+
+    for(var i=0;i<cells.length;i++){
+
+        cells[i].innerHTML="";
+
+    }
+
+    document.getElementById("tttText").innerHTML=
+    "Giliran X";
+
+}
+
+
+/* GAME 4 */
+
+var targetScore=0;
+
+function klikTarget(){
+
+    targetScore++;
+
+    document.getElementById("targetScore").innerHTML=
+    targetScore;
+
+    var t=document.querySelector(".target");
+
+    t.style.transform=
+    "translate("+
+    (Math.random()*150-75)+"px,"+
+    (Math.random()*100-50)+"px)";
+
+}
+
+function resetTarget(){
+
+    targetScore=0;
+
+    document.getElementById("targetScore").innerHTML="0";
+
+    document.querySelector(".target").style.transform="none";
+
+}
+
+
+/* GAME 5 */
+
+var jawabanMath=0;
+
+function soalBaru(){
+
+    var a=Math.floor(Math.random()*10)+1;
+
+    var b=Math.floor(Math.random()*10)+1;
+
+    jawabanMath=a+b;
+
+    document.getElementById("soalMath").innerHTML=
+    a+" + "+b+" = ?";
+
+}
+
+function jawabMath(){
+
+    var jawaban=Number(
+        document.getElementById("mathInput").value
+    );
+
+    if(jawaban===jawabanMath){
+
+        document.getElementById("mathHasil").innerHTML=
+        "🎉 BENAR!";
+
+        soalBaru();
+
+    }
+
+    else{
+
+        document.getElementById("mathHasil").innerHTML=
+        "❌ Salah, coba lagi!";
+
+    }
+
+}
+
+soalBaru();
+
+
+/* GAME 6 */
+
+function tebakKoin(pilihan){
+
+    var hasil=
+    Math.random()<0.5 ? "Kepala":"Ekor";
+
+    document.getElementById("koinHasil").innerHTML=
+    "Hasil: "+hasil+
+    "<br>"+
+    (pilihan===hasil ?
+    "🎉 BENAR!" :
+    "😂 SALAH!");
+
+}
+
+
+/* GAME 7 */
+
+function lemparDadu(){
+
+    var angka=Math.floor(Math.random()*6)+1;
+
+    var emoji=[
+        "⚀","⚁","⚂","⚃","⚄","⚅"
+    ];
+
+    document.getElementById("dadu").innerHTML=
+    emoji[angka-1];
+
+}
+
+
+/* GAME 8 */
+
+var simbol=[
+    "🍎","🍎",
+    "🍌","🍌",
+    "🍇","🍇",
+    "🍉","🍉"
+];
+
+var kartuPertama=null;
+
+var kunci=false;
+
+function buatMemory(){
+
+    var acak=simbol.slice().sort(
+        function(){
+            return Math.random()-0.5;
+        }
+    );
+
+    var board=document.getElementById("memoryBoard");
+
+    board.innerHTML="";
+
+    kartuPertama=null;
+
+    kunci=false;
+
+    for(var i=0;i<acak.length;i++){
+
+        var kartu=document.createElement("div");
+
+        kartu.className="mem";
+
+        kartu.innerHTML="❓";
+
+        kartu.dataset.nilai=acak[i];
+
+        kartu.onclick=function(){
+
+            if(kunci || this.innerHTML!=="❓"){
+                return;
+            }
+
+            this.innerHTML=this.dataset.nilai;
+
+            if(kartuPertama===null){
+
+                kartuPertama=this;
+
+            }
+
+            else{
+
+                if(
+                    kartuPertama.dataset.nilai===
+                    this.dataset.nilai
+                ){
+
+                    kartuPertama=null;
+
+                }
+
+                else{
+
+                    var kedua=this;
+
+                    kunci=true;
+
+                    setTimeout(function(){
+
+                        kartuPertama.innerHTML="❓";
+
+                        kedua.innerHTML="❓";
+
+                        kartuPertama=null;
+
+                        kunci=false;
+
+                    },700);
+
+                }
+
+            }
+
+        };
+
+        board.appendChild(kartu);
+
+    }
+
+}
+
+buatMemory();
+
+
+/* GAME 9 */
+
+var sedangMenunggu=false;
+
+var waktuMulai=0;
+
+function reaksi(){
+
+    var tombol=
+    document.getElementById("reactionButton");
+
+    var teks=
+    document.getElementById("reactionText");
+
+    if(tombol.innerHTML==="KLIK SEKARANG!"){
+
+        var waktu=Date.now()-waktuMulai;
+
+        teks.innerHTML=
+        "⚡ Waktu kamu: "+waktu+" ms";
+
+        tombol.innerHTML="MAIN LAGI";
+
+        return;
+
+    }
+
+    teks.innerHTML="⏳ Tunggu...";
+
+    tombol.disabled=true;
+
+    sedangMenunggu=true;
+
+    var waktuTunggu=
+    Math.floor(Math.random()*3000)+1000;
+
+    setTimeout(function(){
+
+        waktuMulai=Date.now();
+
+        sedangMenunggu=false;
+
+        tombol.disabled=false;
+
+        tombol.innerHTML="KLIK SEKARANG!";
+
+        teks.innerHTML="🔥 SEKARANG!";
+
+    },waktuTunggu);
+
+}
+
+
+/* GAME 10 */
+
+function putarSlot(){
+
+    var angka1=Math.floor(Math.random()*9)+1;
+
+    var angka2=Math.floor(Math.random()*9)+1;
+
+    var angka3=Math.floor(Math.random()*9)+1;
+
+    document.getElementById("slot").innerHTML=
+    angka1+"️⃣ "+
+    angka2+"️⃣ "+
+    angka3+"️⃣";
+
+    if(angka1===angka2 && angka2===angka3){
+
+        document.getElementById("slotHasil").innerHTML=
+        "🎉 JACKPOT!";
+
+    }
+
+    else{
+
+        document.getElementById("slotHasil").innerHTML=
+        "Coba lagi 😎";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
